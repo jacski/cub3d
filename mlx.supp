@@ -1,0 +1,42 @@
+{
+	mlx
+	Memcheck:Leak
+	...
+	fun:mlx_init
+	...
+}
+{
+	mlx
+	Memcheck:Leak
+	...
+	fun:mlx_xpm_file_to_image
+	...
+}
+{
+	mlx
+	Memcheck:Leak
+	...
+	fun:mlx_int_param_KeyPress
+	...
+}
+{
+	mlx
+	Memcheck:Leak
+	...
+	fun:mlx_loop
+	...
+}
+{
+	mlx
+	Memcheck:Leak
+	...
+	fun:mlx_int_new_xshm_image
+	...
+}
+{
+	mlx
+	Memcheck:Leak
+	...
+	fun:mlx_new_window
+	...
+}
