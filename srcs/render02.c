@@ -24,8 +24,7 @@ t_column_info	calculate_column_info(t_game *game, int x)
 		tan(FOV_ANGLE / 2)));
 	info.ray = cast_ray(game, game->player.pos_x, game->player.pos_y, \
 		info.ray_angle);
-	perp_wall_dist = info.ray.distance * cos(info.ray_angle - \
-		game->player.angle);
+	perp_wall_dist = info.ray.distance;
 	wall_height = game->screen_height / perp_wall_dist;
 	info.wall_top = (game->screen_height / 2) - (wall_height / 2);
 	info.wall_bottom = info.wall_top + wall_height;
