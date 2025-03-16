@@ -12,23 +12,51 @@
 
 #include "../includes/cub3d.h"
 
+char	*ft_strndup(const char *src, size_t n)
+{
+	char	*dup;
+	size_t	i;
+
+	dup = (char *)malloc(n + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < n && src[i])
+	{
+		dup[i] = src[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
+static void	process_line(char *line_start, char *lines[MAX_LINE_LENGTH], int *line_count)
+{
+	char	*line_end;
+
+	while (*line_start)
+	{
+		line_end = line_start;
+		while (*line_end && *line_end != '\n')
+			line_end++;
+		lines[*line_count] = ft_strndup(line_start, line_end - line_start);
+		(*line_count)++;
+		if (*line_end == '\n')
+			line_end++;
+		line_start = line_end;
+	}
+}
+
 void	read_map_lines(int fd, char *lines[1024], int *line_count)
 {
 	ssize_t	bytes_read;
 	char	buffer[MAX_LINE_LENGTH];
-	char	*line;
 
 	bytes_read = read(fd, buffer, MAX_LINE_LENGTH - 1);
 	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
-		line = strtok(buffer, "\n");
-		while (line)
-		{
-			lines[*line_count] = ft_strdup(line);
-			(*line_count)++;
-			line = strtok(NULL, "\n");
-		}
+		process_line(buffer, lines, line_count);
 		bytes_read = read(fd, buffer, MAX_LINE_LENGTH - 1);
 	}
 	if (bytes_read < 0)
@@ -63,34 +91,4 @@ void	parse_map_config(char *lines[1024], int line_count, t_game *game)
 			parse_configuration_line(lines[i], &game->config);
 		i++;
 	}
-}
-
-void	extract_and_validate_map(char *lines[1024], int line_count, \
-		t_game *game)
-{
-	int		rows;
-	int		cols;
-	char	**map_grid;
-
-	map_grid = extract_map(lines, line_count, &rows, &cols);
-	if (!validate_map(map_grid, rows, cols))
-	{
-		print_error("Invalid map structure");
-		exit(EXIT_FAILURE);
-	}
-	game->config.map.grid = map_grid;
-	game->config.map.width = cols;
-	game->config.map.height = rows;
-}
-
-void	set_player_angle(t_game *game, char tile)
-{
-	if (tile == 'N')
-		game->player.angle = (float)M_PI / 2;
-	else if (tile == 'S')
-		game->player.angle = (float)3 * M_PI / 2;
-	else if (tile == 'E')
-		game->player.angle = (float)0;
-	else if (tile == 'W')
-		game->player.angle = (float)M_PI;
 }

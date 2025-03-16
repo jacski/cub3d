@@ -12,6 +12,41 @@
 
 #include "../includes/cub3d.h"
 
+void	extract_and_validate_map(char *lines[1024], int line_count, \
+		t_game *game)
+{
+	int		rows;
+	int		cols;
+	char	**map_grid;
+
+	map_grid = extract_map(lines, line_count, &rows, &cols);
+	if (!map_grid)
+	{
+		print_error("Failed to extract map");
+		exit(EXIT_FAILURE);
+	}
+	if (!validate_map(map_grid, rows, cols))
+	{
+		print_error("Invalid map structure");
+		exit(EXIT_FAILURE);
+	}
+	game->config.map.grid = map_grid;
+	game->config.map.width = cols;
+	game->config.map.height = rows;
+}
+
+void	set_player_angle(t_game *game, char tile)
+{
+	if (tile == 'N')
+		game->player.angle = (float)M_PI / 2;
+	else if (tile == 'S')
+		game->player.angle = (float)3 * M_PI / 2;
+	else if (tile == 'E')
+		game->player.angle = (float)0;
+	else if (tile == 'W')
+		game->player.angle = (float)M_PI;
+}
+
 int	is_player_start_position(char tile, t_coordinates *coordinates, \
 		int cols, char **map_grid)
 {
@@ -43,40 +78,4 @@ void	check_multiple_players(int *found_player, t_game *game, \
 	}
 	assign_player_position(game, coordinates->x, coordinates->y, tile);
 	*found_player = 1;
-}
-
-void	check_no_player_found(int found_player)
-{
-	if (!found_player)
-	{
-		print_error("No player start position found");
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	locate_player(char **map_grid, int rows, int cols, t_game *game)
-{
-	t_coordinates	coordinates;
-	int						found_player;
-	int						y;
-	int						x;
-	char					tile;
-
-	found_player = 0;
-	y = 0;
-	while (y < rows)
-	{
-		x = 0;
-		while (x < (int)strlen(map_grid[y]))
-		{
-			tile = map_grid[y][x];
-			coordinates.x = x;
-			coordinates.y = y;
-			if (is_player_start_position(tile, &coordinates, cols, map_grid))
-				check_multiple_players(&found_player, game, &coordinates, tile);
-			x++;
-		}
-		y++;
-	}
-	check_no_player_found(found_player);
 }
