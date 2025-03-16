@@ -19,11 +19,8 @@ void	free_textures(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		if (game->textures[i])
-		{
-			free(game->textures[i]);
-			game->textures[i] = NULL;
-		}
+		if (game->textures_img[i])
+			mlx_destroy_image(game->mlx, game->textures_img[i]);
 		i++;
 	}
 }
@@ -72,6 +69,7 @@ void	free_textures_c(t_config *config)
 void	cleanup_game(t_game *game)
 {
 	free_map_grid(&game->config);
+	free_textures(game);
 	free_textures_c(&game->config);
 	if (game->img)
 	{

@@ -31,10 +31,15 @@ int	is_within_map(float x, float y, t_game *game)
 	int		grid_y;
 	char	cell;
 
-	grid_x = (int)(x);
-	grid_y = (int)(y);
+	if (!game || !game->config.map.grid)
+		return (0);
+	grid_x = (int)floor(x);
+	grid_y = (int)floor(y);
 	if (grid_x < 0 || grid_x >= game->config.map.width || \
-		grid_y < 0 || grid_y >= game->config.map.height)
+		grid_y < 0 || grid_y >= game->config.map.height || \
+		!game->config.map.grid[grid_y])
+		return (0);
+	if (grid_x >= (int)strlen(game->config.map.grid[grid_y]))
 		return (0);
 	cell = game->config.map.grid[grid_y][grid_x];
 	return (cell == '0' || cell == '1' || cell == 'N' || \

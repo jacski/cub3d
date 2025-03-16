@@ -91,6 +91,7 @@ typedef struct s_game
 	int			ceiling_color;
 	int			texture_width;
 	int			texture_height;
+	void		*textures_img[4];
 	uint32_t	*textures[4];
 	void		*img;
 	char		*img_data;

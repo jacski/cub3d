@@ -24,6 +24,7 @@ void	load_texture(t_game *game, const char *path, int texture_index)
 		cleanup_game(game);
 		exit(EXIT_FAILURE);
 	}
+	game->textures_img[texture_index] = img;
 	game->texture_width = info[0];
 	game->texture_height = info[1];
 	game->textures[texture_index] = (uint32_t *)mlx_get_data_addr(img, \
