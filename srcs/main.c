@@ -24,7 +24,6 @@ int	handle_keypress(int key, t_game *game)
 	return (0);
 }
 
-
 void	parse_map_file(const char *file_path, t_game *game)
 {
 	char	*lines[1024];

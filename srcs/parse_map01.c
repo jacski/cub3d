@@ -30,7 +30,8 @@ char	*ft_strndup(const char *src, size_t n)
 	return (dup);
 }
 
-static void	process_line(char *line_start, char *lines[MAX_LINE_LENGTH], int *line_count)
+static void	process_line(char *line_start, char *lines[MAX_LINE_LENGTH], \
+	int *line_count)
 {
 	char	*line_end;
 

@@ -56,7 +56,6 @@ void	set_ray_params(t_ray_params *ray_params, t_intersection *intersection, \
 	set_wall_direction(ray_params, angle, hit_vertical);
 }
 
-
 t_ray	cast_ray(t_game *game, float start_x, float start_y, float angle)
 {
 	t_intersection		horizontal;

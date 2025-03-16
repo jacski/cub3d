@@ -23,7 +23,7 @@ void	check_no_player_found(int found_player)
 
 void	locate_player(char **map_grid, int rows, int cols, t_game *game)
 {
-	t_coordinates	coordinates;
+	t_coordinates			coordinates;
 	int						found_player;
 	int						y;
 	int						x;

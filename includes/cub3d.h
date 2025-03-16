@@ -185,8 +185,6 @@ typedef struct s_coordinates
 	int	y;
 }	t_coordinates;
 
-
-
 typedef struct s_map_size
 {
 	int	rows;
